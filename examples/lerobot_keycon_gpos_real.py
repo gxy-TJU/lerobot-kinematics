@@ -1,3 +1,4 @@
+
 # code by LinCC111 Boxjod 2025.1.13 Box2AI-Robotics copyright 盒桥智能 版权所有
 
 import os
@@ -23,7 +24,7 @@ os.environ["MUJOCO_GL"] = "egl"
 JOINT_NAMES = ["Rotation", "Pitch", "Elbow", "Wrist_Pitch", "Wrist_Roll", "Jaw"]
 
 # Absolute path of the XML model
-xml_path = "./examples/scene.xml"
+xml_path = "lerobot-kinematics/examples/scene.xml"
 mjmodel = mujoco.MjModel.from_xml_path(xml_path)
 qpos_indices = np.array([mjmodel.jnt_qposadr[mjmodel.joint(name).id] for name in JOINT_NAMES])
 mjdata = mujoco.MjData(mjmodel)
@@ -115,7 +116,7 @@ motors = {"shoulder_pan": (1, "sts3215"),
           "wrist_roll": (5, "sts3215"),
           "gripper": (6, "sts3215")}
 
-follower_arm = feetech_arm(driver_port="/dev/lerobot_tty1", calibration_file="examples/main_follower.json" )
+follower_arm = feetech_arm(driver_port="/dev/ttyACM1", calibration_file="lerobot-kinematics/examples/main_follower.json" )
 
 t = 0
 try:
@@ -162,7 +163,7 @@ try:
                             if target_gpos[position_idx] >= control_glimit[0][position_idx]:
                                 target_gpos[position_idx] += POSITION_INSERMENT * direction
 
-            # print("target_gpos:", [f"{x:.3f}" for x in target_gpos])
+            print("target_gpos:", [f"{x:.3f}" for x in target_gpos])
             # fd_qpos = np.concatenate(([0.0,], mjdata.qpos[qpos_indices][1:5]))
             fd_qpos = mjdata.qpos[qpos_indices][1:5]
             qpos_inv, IK_success = lerobot_IK(fd_qpos, target_gpos, robot=robot)
