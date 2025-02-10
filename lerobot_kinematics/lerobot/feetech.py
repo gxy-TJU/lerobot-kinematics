@@ -4,12 +4,36 @@ import math
 import time
 import traceback
 from copy import deepcopy
+from datetime import datetime, timezone
 
 import numpy as np
 import tqdm
 
-from lerobot.common.robot_devices.utils import RobotDeviceAlreadyConnectedError, RobotDeviceNotConnectedError
-from lerobot.common.utils.utils import capture_timestamp_utc
+# from lerobot.common.robot_devices.utils import RobotDeviceAlreadyConnectedError, RobotDeviceNotConnectedError
+# from lerobot.common.utils.utils import capture_timestamp_utc
+
+class RobotDeviceNotConnectedError(Exception):
+    """Exception raised when the robot device is not connected."""
+
+    def __init__(
+        self, message="This robot device is not connected. Try calling `robot_device.connect()` first."
+    ):
+        self.message = message
+        super().__init__(self.message)
+        
+class RobotDeviceAlreadyConnectedError(Exception):
+    """Exception raised when the robot device is already connected."""
+
+    def __init__(
+        self,
+        message="This robot device is already connected. Try not calling `robot_device.connect()` twice.",
+    ):
+        self.message = message
+        super().__init__(self.message)
+
+def capture_timestamp_utc():
+    return datetime.now(timezone.utc)
+
 
 PROTOCOL_VERSION = 0
 BAUDRATE = 1_000_000

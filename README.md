@@ -7,6 +7,8 @@ This repository is a fork of the following projects [Robotics Toolbox for Python
 
 ## A. Installation (Ubuntu 20.04)
 
+We recommend **python=3.10** for consistency with lerobot.
+
 ```bash
   git clone https://github.com/box2ai-robotics/lerobot-kinematics.git
   cd lerobot-kinematics
